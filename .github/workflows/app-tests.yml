@@ -1,17 +1,18 @@
-# .github/workflows/app-tests.yml (Example 5-2) 
+# .github/workflows/app-tests.yml (Version Optimisée)
 name: Sample App Tests
 
 on: push
 
 jobs:
-  sample_app_tests: 
-    name: "Run Tests Using Jest" 
-    runs-on: ubuntu-latest 
-    steps: 
-      - uses: actions/checkout@v3 
-      - name: Install dependencies 
-        working-directory: td5/scripts/sample-app 
-        run: npm install 
-      - name: Run tests 
-        working-directory: td5/scripts/sample-app 
-        run: npm test
+  sample_app_tests: 
+    name: "Run Tests Using Jest" 
+    runs-on: ubuntu-latest 
+    steps: 
+      - uses: actions/checkout@v3 
+      
+      - name: ⚙️ Install dependencies and Run tests
+        # Applique le working-directory à TOUTES les commandes 'run' de cette étape
+        working-directory: td5/scripts/sample-app 
+        run: |
+          npm install
+          npm test
