@@ -1,15 +1,12 @@
-[cite_start]#.github/workflows/app-tests.yml (Exemple 5-2)
-[cite_start]name: Sample App Tests
-[cite_start]on: push
-[cite_start]jobs:
-  [cite_start]sample_app_tests:
-    [cite_start]name: "Run Tests Using Jest"
-    [cite_start]runs-on: ubuntu-latest
-    [cite_start]steps:
-      - [cite_start]uses: actions/checkout@v
-      - [cite_start]name: Install dependencies
-        [cite_start]working-directory: td5/scripts/sample-app
-        [cite_start]run: npm install
-      - [cite_start]name: Run tests
-        [cite_start]working-directory: td5/scripts/sample-app
-        [cite_start]run: npm test
+# .github/workflows/app-tests.yml (Example 5-2) 
+name: Sample App Tests 
+on: push 
+jobs: 
+sample_app_tests: 
+name: "Run Tests Using Jest" 
+runs-on: ubuntu-latest 
+steps: - uses: actions/checkout@v3 - name: Install dependencies 
+working-directory: td5/scripts/sample-app 
+run: npm install - name: Run tests 
+working-directory: td5/scripts/sample-app 
+run: npm test
