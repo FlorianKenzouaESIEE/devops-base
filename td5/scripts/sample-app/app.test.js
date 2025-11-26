@@ -14,7 +14,7 @@ describe('Test de l\'API d\'accueil', () => {
         const response = await request(server).get('/');
 
         // 1. Vérifie le code de statut HTTP
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(127);
 
         // 2. Vérifie le type de contenu (doit être 'text/plain' comme défini dans app.js)
         expect(response.headers['content-type']).toMatch(/text\/plain/);
