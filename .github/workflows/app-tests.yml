@@ -10,6 +10,9 @@ jobs:
     steps: 
       # Indentation de 4 espaces pour les éléments de la liste 'steps'
       - uses: actions/checkout@v3 
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
       - name: Install dependencies 
         working-directory: td5/scripts/sample-app 
         run: npm install 
