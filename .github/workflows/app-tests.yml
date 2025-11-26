@@ -32,4 +32,4 @@ jobs:
       # 5. Exécution des tests
       - name: Run tests 
         working-directory: td5/scripts/sample-app
-        run: npm test
+        run: npx jest
