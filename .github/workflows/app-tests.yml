@@ -4,18 +4,32 @@ on: push
 
 jobs:
   sample_app_tests: 
-    # Indentation de 2 espaces pour les paramètres du job
     name: "Run Tests Using Jest" 
-    runs-on: ubuntu-latest # Assurez-vous que c'est bien 2 espaces ici et que ce n'est PAS une tabulation.
+    runs-on: ubuntu-latest 
     steps: 
-      # Indentation de 4 espaces pour les éléments de la liste 'steps'
+      # 1. CLONER LE CODE
       - uses: actions/checkout@v3 
+      
+      # 2. INSTALLER NODE.JS (REND 'npm' DISPONIBLE)
       - uses: actions/setup-node@v3
         with:
           node-version: '18'
+          
+      # 3. Étape de Dépannage pour vérifier le chemin et le contenu
+      - name: Debug: Check actual path and contents
+        run: |
+          echo "Workspace is located at: $GITHUB_WORKSPACE"
+          echo "Checking path: $GITHUB_WORKSPACE/td5/scripts/sample-app"
+          
+          # Tente d'afficher la liste des fichiers pour confirmer l'existence du package.json
+          ls -al "$GITHUB_WORKSPACE/td5/scripts/sample-app"
+          
+      # 4. Installation des dépendances dans le bon répertoire
       - name: Install dependencies 
-        working-directory: td5/scripts/sample-app 
+        working-directory: td5/scripts/sample-app # On revient au chemin relatif, car il est plus court
         run: npm install 
+        
+      # 5. Exécution des tests
       - name: Run tests 
-        working-directory: td5/scripts/sample-app 
+        working-directory: td5/scripts/sample-app
         run: npm test
