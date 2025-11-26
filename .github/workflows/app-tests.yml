@@ -16,8 +16,7 @@ jobs:
           node-version: '18'
           
       # 3. Étape de Dépannage pour vérifier le chemin et le contenu
-      - name: 
-        Debug: Check actual path and contents
+      - name: Check actual path, contents and Debug
         run: |
           echo "Workspace is located at: $GITHUB_WORKSPACE"
           echo "Checking path: $GITHUB_WORKSPACE/td5/scripts/sample-app"
