@@ -28,3 +28,26 @@ module "iam_roles" {
   tofu_state_bucket         = "florian-daryl-fundamentals-of-devops-tofu-state" 
   tofu_state_dynamodb_table = "florian-daryl-fundamentals-of-devops-tofu-state" 
 }
+
+# 1. On définit la permission
+data "aws_iam_policy_document" "api_gateway_access" {
+  statement {
+    effect    = "Allow"
+    actions   = ["apigateway:*"]
+    resources = ["*"]
+  }
+}
+
+# 2. On colle cette permission sur le rôle de PLAN
+resource "aws_iam_role_policy" "plan_api_gateway" {
+  name   = "api-gateway-permissions-plan"
+  role   = "lambda-sample-plan" # Le nom généré par le module
+  policy = data.aws_iam_policy_document.api_gateway_access.json
+}
+
+# 3. On colle cette permission sur le rôle de APPLY
+resource "aws_iam_role_policy" "apply_api_gateway" {
+  name   = "api-gateway-permissions-apply"
+  role   = "lambda-sample-apply" # Le nom généré par le module
+  policy = data.aws_iam_policy_document.api_gateway_access.json
+}
