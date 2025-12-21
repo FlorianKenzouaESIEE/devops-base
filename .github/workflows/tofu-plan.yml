@@ -1,0 +1,72 @@
+name: Tofu Plan
+
+on:
+  pull_request:
+    branches: ["main"]
+    # Le workflow ne se lance que si on touche au dossier du lambda
+    paths: ["td5/scripts/tofu/live/lambda-sample/**"]
+
+jobs:
+  plan:
+    name: "Tofu Plan"
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          
+          role-to-assume: ${{ secrets.PLAN_ROLE_ARN }}
+          role-session-name: plan-${{ github.run_number }}
+          aws-region: eu-central-1
+      
+      - name: 🕵️ DEBUG - Vérification Identité et Accès
+        run: |
+          echo "=== QUI SUIS-JE ? ==="
+          aws sts get-caller-identity
+
+          echo "=== TEST D'ACCÈS AU BUCKET ==="
+          # Remplacez par VOTRE nom de bucket exact
+          aws s3 ls s3://florian-daryl-fundamentals-of-devops-tofu-state
+        env:
+          AWS_REGION: eu-central-1
+      
+      - name: 🕵️ DEBUG - Vérifier le fichier backend.tf
+        working-directory: td5/scripts/tofu/live/lambda-sample
+        run: |
+          echo "Voici le contenu EXACT du fichier backend.tf :"
+          cat backend.tf
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+
+      - name: Tofu Init
+        working-directory: td5/scripts/tofu/live/lambda-sample
+        run: tofu init -no-color -input=false
+
+      - name: Tofu Plan
+        id: plan
+        working-directory: td5/scripts/tofu/live/lambda-sample
+        run: tofu plan -no-color -input=false -lock=false
+
+      
+      - uses: peter-evans/create-or-update-comment@v4
+        if: always()
+        env:
+          RESULT_EMOJI: ${{ steps.plan.outcome == 'success' && '✅' || '❌' }}
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## ${{ env.RESULT_EMOJI }} `tofu plan` output
+            <details><summary>Click to expand Plan</summary>
+
+            ```terraform
+            ${{ steps.plan.outputs.stdout }}
+            ```
+            </details>

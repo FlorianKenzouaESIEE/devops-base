@@ -1,8 +1,5 @@
-# --- Règles Générales (Indispensables) ---
+.terraform/
 *.tfstate
-*.tfstate.*
-.tofu/
-
-# --- Règles Spécifiques (Chemin complet depuis la racine du repo) ---
-# Ceci ignore le dossier .terraform spécifiquement à cet endroit précis
-/td5/scripts/tofu/live/ci-cd-permissions/.terraform/
+*.tfstate.backup
+.terraform.lock.hcl
+*.exe
