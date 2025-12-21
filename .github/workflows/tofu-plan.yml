@@ -25,6 +25,17 @@ jobs:
           role-to-assume: ${{ secrets.PLAN_ROLE_ARN }}
           role-session-name: plan-${{ github.run_number }}
           aws-region: eu-central-1
+      
+      - name: 🕵️ DEBUG - Vérification Identité et Accès
+        run: |
+          echo "=== QUI SUIS-JE ? ==="
+          aws sts get-caller-identity
+
+          echo "=== TEST D'ACCÈS AU BUCKET ==="
+          # Remplacez par VOTRE nom de bucket exact
+          aws s3 ls s3://florian-daryl-fundamentals-of-devops-tofu-state
+        env:
+          AWS_REGION: eu-central-1
 
       - name: Setup OpenTofu
         uses: opentofu/setup-opentofu@v1
