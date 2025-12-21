@@ -1,15 +1,18 @@
-[cite_start]#.github/workflows/app-tests.yml (Exemple 5-2) [cite: 51]
-[cite_start]name: Sample App Tests [cite: 52]
-[cite_start]on: push [cite: 53]
-[cite_start]jobs: [cite: 54]
-  [cite_start]sample_app_tests: [cite: 55]
-    [cite_start]name: "Run Tests Using Jest" [cite: 56]
-    [cite_start]runs-on: ubuntu-latest [cite: 57]
-    [cite_start]steps: [cite: 58]
-      - [cite_start]uses: actions/checkout@v3 [cite: 59]
-      - [cite_start]name: Install dependencies [cite: 60]
-        [cite_start]working-directory: td5/scripts/sample-app [cite: 61]
-        [cite_start]run: npm install [cite: 62]
-      - [cite_start]name: Run tests [cite: 63]
-        [cite_start]working-directory: td5/scripts/sample-app [cite: 64]
-        [cite_start]run: npm test [cite: 64]
+name: Sample App Tests
+
+on: push
+
+jobs:
+  sample_app_tests:
+    name: "Run Tests Using Jest"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install dependencies
+        working-directory: td5/scripts/sample-app
+        run: npm install
+        
+      - name: Run tests
+        working-directory: td5/scripts/sample-app
+        run: npm test
