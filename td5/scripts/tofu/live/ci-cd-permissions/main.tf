@@ -51,3 +51,10 @@ resource "aws_iam_role_policy" "apply_api_gateway" {
   role   = "lambda-sample-apply" # Le nom généré par le module
   policy = data.aws_iam_policy_document.api_gateway_access.json
 }
+
+# 4. On colle cette permission sur le rôle de TESTS
+resource "aws_iam_role_policy" "test_api_gateway" {
+  name   = "api-gateway-permissions-test"
+  role   = "lambda-sample-tests"  # C'est le nom qui apparaît dans votre erreur
+  policy = data.aws_iam_policy_document.api_gateway_access.json
+}
